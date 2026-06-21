@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sandar Store</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 5%;
+    background:#111;
+    color:white;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-size:28px;
+    font-weight:bold;
+}
+
+.search-box{
+    width:300px;
+}
+
+.search-box input{
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.actions button{
+    padding:10px 15px;
+    border:none;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.hero{
+    height:70vh;
+    background:url('images/banner.jpg') center/cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    text-align:center;
+}
+
+.hero-content{
+    background:rgba(0,0,0,.5);
+    padding:30px;
+    border-radius:20px;
+}
+
+.products{
+    padding:50px 5%;
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.product-card{
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+    background:white;
+}
+
+.product-card img{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+}
+
+.product-info{
+    padding:15px;
+}
+
+.product-info button{
+    width:100%;
+    margin-top:8px;
+    padding:10px;
+    border:none;
+    cursor:pointer;
+}
+
+footer{
+    background:#111;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.dark{
+    background:#111;
+    color:white;
+}
+
+.dark .product-card{
+    background:#222;
+    color:white;
+}
+
+#cart-sidebar{
+    position:fixed;
+    right:-400px;
+    top:0;
+    width:350px;
+    height:100%;
+    background:white;
+    box-shadow:-5px 0 15px rgba(0,0,0,.2);
+    transition:.3s;
+    overflow:auto;
+    z-index:2000;
+    padding:20px;
+}
+
+#product-popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.7);
+    justify-content:center;
+    align-items:center;
+    z-index:3000;
+}
+
+.popup-content{
+    background:white;
+    width:90%;
+    max-width:500px;
+    border-radius:15px;
+    padding:20px;
+    text-align:center;
+}
+
+.popup-content img{
+    width:100%;
+    max-height:350px;
+    object-fit:cover;
+}
+
+#topBtn{
+    display:none;
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    padding:15px;
+    cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+
+<div class="logo">
+Sandar Store
+</div>
+
+<div class="search-box">
+<input
+type="text"
+id="search"
+placeholder="Search products...">
+</div>
+
+<div class="actions">
+
+<button id="darkMode">
+🌙
+</button>
+
+<button onclick="openCart()">
+🛒 <span id="cart-count">0</span>
+</button>
+
+</div>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-content">
+<h1>Welcome To Sandar Store</h1>
+<p>Quality Fashion Collection</p>
+</div>
+
+</section>
+
+<section class="products">
+
+<h2>Our Products</h2>
+
+<div class="product-grid">
+
+<div
+class="product-card"
+data-category="shirt">
+
+<img
+src="images/product1.jpg"
+alt="Product">
+
+<div class="product-info">
+
+<h3>T-Shirt 1</h3>
+
+<p>25000 Ks</p>
+
+<button
+onclick="addToCart('T-Shirt 1',25000)">
+Add To Cart
+</button>
+
+<button
+onclick="addWishlist('T-Shirt 1')">
+❤ Wishlist
+</button>
+
+<button
+onclick="openProduct(
+'T-Shirt 1',
+'images/product1.jpg',
+25000
+)">
+View
+</button>
+
+</div>
+</div>
+
+<div
+class="product-card"
+data-category="shirt">
+
+<img
+src="images/product2.jpg"
+alt="Product">
+
+<div class="product-info">
+
+<h3>T-Shirt 2</h3>
+
+<p>30000 Ks</p>
+
+<button
+onclick="addToCart('T-Shirt 2',30000)">
+Add To Cart
+</button>
+
+<button
+onclick="addWishlist('T-Shirt 2')">
+❤ Wishlist
+</button>
+
+<button
+onclick="openProduct(
+'T-Shirt 2',
+'images/product2.jpg',
+30000
+)">
+View
+</button>
+
+</div>
+</div>
+
+<div
+class="product-card"
+data-category="shirt">
+
+<img
+src="images/product3.jpg"
+alt="Product">
+
+<div class="product-info">
+
+<h3>T-Shirt 3</h3>
+
+<p>35000 Ks</p>
+
+<button
+onclick="addToCart('T-Shirt 3',35000)">
+Add To Cart
+</button>
+
+<button
+onclick="addWishlist('T-Shirt 3')">
+❤ Wishlist
+</button>
+
+<button
+onclick="openProduct(
+'T-Shirt 3',
+'images/product3.jpg',
+35000
+)">
+View
+</button>
+
+</div>
+</div>
+
+</div>
+
+</section>
+
+<section style="padding:50px;">
+
+<h2>Wishlist</h2>
+
+<ul id="wishlist"></ul>
+
+</section>
+
+<footer>
+
+<h3>Sandar Store</h3>
+
+<p>Fashion & Clothing Store</p>
+
+<a
+href="https://m.me/YOUR_PAGE_ID"
+target="_blank">
+Order Via Messenger
+</a>
+
+</footer>
+
+<div id="cart-sidebar">
+
+<h2>Your Cart</h2>
+
+<div id="cart-items"></div>
+
+<hr>
+
+<h3>
+Total :
+<span id="cart-total">
+0 Ks
+</span>
+</h3>
+
+<button onclick="clearCart()">
+Clear Cart
+</button>
+
+<button onclick="closeCart()">
+Close
+</button>
+
+</div>
+
+<div id="product-popup">
+
+<div class="popup-content">
+
+<h2 id="popup-title"></h2>
+
+<img
+id="popup-image"
+src=""
+alt="">
+
+<h3 id="popup-price"></h3>
+
+<button
+onclick="closePopup()">
+Close
+</button>
+
+</div>
+
+</div>
+
+<button
+id="topBtn"
+onclick="topFunction()">
+⬆
+</button>
+
+<script src="script.js"></script>
+
+</body>
+</html>
